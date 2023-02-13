@@ -9,6 +9,24 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    {
+      updateDate: {
+        type: DataTypes.DATE,
+        allowNull: false
+      }
+    },
+    {
+      status: {
+        type: DataTypes.ENUM("pending", "success"),
+        defaultValue: "pending"
+      }
+    },
+    {
+      totalPrice: {
+        type: DataTypes.FLOAT(10, 2),
+        allowNull: false
+      }
+    },
     { underscored: true }
   );
   Order.associate = db => {
@@ -18,9 +36,9 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     });
-    Order.belongsTo(db.Product, {
+    Order.belongsTo(db.User, {
       foreignKey: {
-        name: "productId",
+        name: "userId",
         allowNull: false
       }
     });

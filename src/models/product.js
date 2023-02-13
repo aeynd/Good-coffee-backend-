@@ -24,7 +24,14 @@ module.exports = (sequelize, DataTypes) => {
     { underscored: true }
   );
   Product.associate = db => {
-    Product.hasMany(db.Order, {
+    Product.hasMany(db.OrderItem, {
+      foreignKey: {
+        name: "productId",
+        allowNull: false
+      }
+    });
+
+    Product.hasMany(db.Cart, {
       foreignKey: {
         name: "productId",
         allowNull: false
@@ -39,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
     });
     Product.belongsTo(db.Categories, {
       foreignKey: {
-        name: "categoriesrId",
+        name: "categoriesId",
         allowNull: false
       }
     });
