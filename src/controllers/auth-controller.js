@@ -1,11 +1,17 @@
+const fs = require("fs");
+
 const {
   validateRegister,
   validateLogin
 } = require("../validators/auth-validator");
-const { User } = require("../models");
-const createError = require("../utils/create-error");
+const { validateUploadSlip } = require("../validators/payment-validator");
+const { User, Order } = require("../models");
+
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+
+const createError = require("../utils/create-error");
+const cloudinary = require("../utils/cloudinary");
 
 exports.register = async (req, res, next) => {
   try {
@@ -53,7 +59,7 @@ exports.login = async (req, res, next) => {
       }
     );
 
-    res.status(200).json({accessToken})
+    res.status(200).json({ accessToken });
   } catch (err) {
     next(err);
   }
@@ -61,4 +67,32 @@ exports.login = async (req, res, next) => {
 
 exports.getMe = (req, res, next) => {
   res.status(200).json({ user: req.user });
+};
+
+exports.uploadPayment = async (req, res, next) => {
+  try {
+    // const value = validateUploadSlip({
+    //   // title: req.body.title,
+    //   image: req.file?.path
+    // });
+    // if (value.image) {
+    //   value.image = await cloudinary.upload(value.image);
+    // }
+    // value.userId = req.user.id;
+    // const order = await Order.create(value);
+
+    const slipPayment = await cloudinary.upload(req.file?.path);
+    const order = await Order.create({
+      userId: req.user.id,
+      paymentImg: slipPayment
+    });
+
+    res.status(201).json({ order });
+  } catch (err) {
+    next(err);
+  } finally {
+    if (req.file) {
+      fs.unlinkSync(req.file.path);
+    }
+  }
 };

@@ -7,8 +7,10 @@ exports.upload = async (filePath,publicId) => {
         overwrite: true
     }
     if (publicId) {
+
         option.public_id = publicId
     }
+    option.folder = "/personal project/payment"
     const result = await cloudinary.uploader.upload(filePath, option)
     return result.secure_url
 };

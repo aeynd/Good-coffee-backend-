@@ -1,32 +1,7 @@
 const fs = require("fs");
 const { User, Product, Categories, Roaster } = require("../models");
-const cloudinary = require("../utils/cloudinary");
+
 const createError = require("../utils/create-error");
-const { validateCreateProduct } = require("../validators/product-validator");
-
-exports.createProduct = async (req, res, next) => {
-  try {
-    const value = validateCreateProduct({
-      title: req.body.title,
-      image: req.file?.path,
-      price: req.body.price
-    });
-    if (value.image) {
-      value.image = await cloudinary.upload(value.image);
-    }
-
-    value.productId = req.product.id;
-
-    const product = await Product.create(value);
-    res.status(201).json({ product });
-  } catch (err) {
-    next(err);
-  } finally {
-    if (req.file) {
-      fs.unlinkSync(req.file.path);
-    }
-  }
-};
 
 exports.getAllProduct = async (req, res, next) => {
   try {
@@ -43,7 +18,7 @@ exports.productInfo = async (req, res, next) => {
 
     const products = await Product.findOne({
       where: { id: productId },
-      include: { model: Roaster, Categories }
+      include: [{ model: Roaster }, { model: Categories }]
     });
 
     res.status(201).json({ products });

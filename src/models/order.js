@@ -2,10 +2,11 @@ module.exports = (sequelize, DataTypes) => {
   const Order = sequelize.define(
     "Order",
     {
-      payment: {
+      paymentImg: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
-          allowNull: false
+          notEmpty: true
         }
       }
     },

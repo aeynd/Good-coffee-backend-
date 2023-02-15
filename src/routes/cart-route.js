@@ -9,6 +9,6 @@ router.get("/itemincart", authenticate, cartController.getAllItemInCart);
 router.post("/addtocart", authenticate, cartController.addToCart);
 router.patch("/updateinccart", authenticate, cartController.updateIncCart);
 router.patch("/updatedeccart", authenticate, cartController.updateDecCart);
-router.delete("/:productId", authenticate, cartController.deleteProductInCart);
+router.delete("/:cartId", authenticate, cartController.deleteProductInCart);
 
 module.exports = router;

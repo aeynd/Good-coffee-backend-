@@ -16,7 +16,10 @@ exports.getAllItemInCart = async (req, res, next) => {
 exports.addToCart = async (req, res, next) => {
   try {
     const sameProductInCart = await Cart.findOne({
-      where: { productId: req.body.productId }
+      where: {
+        productId: req.body.productId,
+        userId: req.user.id
+      }
     });
     if (sameProductInCart) {
       await Cart.update(req.body, {
@@ -30,6 +33,7 @@ exports.addToCart = async (req, res, next) => {
       productId: req.body.productId,
       userId: req.user.id
     });
+
     res.status(200).json({ createAddToCart, message: "add product success" });
   } catch (err) {
     next(err);
@@ -98,12 +102,13 @@ exports.updateDecCart = async (req, res, next) => {
 
 exports.deleteProductInCart = async (req, res, next) => {
   try {
+    console.log("sarddd", req.params);
     const cart = await Cart.findOne({
-      where: { id: req.body.productId }
+      where: { id: req.params.cartId }
     });
-
+    console.log(cart);
     await cart.destroy();
-    res.status(204).json();
+    res.status(204).json({ message: "delete!!!" });
   } catch (err) {
     next(err);
   }
