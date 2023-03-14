@@ -19,6 +19,7 @@ module.exports = async (req, res, next) => {
     if (!user) {
       createError("you are unauthorized", 401);
     }
+    console.log(user)
     req.user = user;
     next();
   } catch (err) {

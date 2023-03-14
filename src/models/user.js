@@ -1,3 +1,5 @@
+const { STATUS_USER, STATUS_ADMIN } = require("../config/constant");
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     "User",
@@ -39,8 +41,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true
       },
       role: {
-        type: DataTypes.ENUM("user", "admin"),
-        defaultValue: "user"
+        type: DataTypes.ENUM(STATUS_USER, STATUS_ADMIN),
+        defaultValue: STATUS_USER
       },
       profileImage: DataTypes.STRING
     },

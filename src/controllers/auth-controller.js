@@ -1,9 +1,6 @@
 const fs = require("fs");
 
-const {
-  validateRegister,
-  validateLogin
-} = require("../validators/auth-validator");
+const { validateRegister, validateLogin } = require("../validators/auth-validator");
 const { validateUploadSlip } = require("../validators/payment-validator");
 const { User, Order } = require("../models");
 
@@ -23,9 +20,7 @@ exports.register = async (req, res, next) => {
     value.password = await bcrypt.hash(value.password, 12);
     await User.create(value);
 
-    res
-      .status(201)
-      .json({ message: "register success. please log in to continue." });
+    res.status(201).json({ message: "register success. please log in to continue." });
   } catch (err) {
     next(err);
   }
@@ -50,6 +45,7 @@ exports.login = async (req, res, next) => {
         email: user.email,
         profileImage: user.profileImage,
         address: user.address,
+        role: user.role,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt
       },
@@ -71,22 +67,14 @@ exports.getMe = (req, res, next) => {
 
 exports.uploadPayment = async (req, res, next) => {
   try {
-    // const value = validateUploadSlip({
-    //   // title: req.body.title,
-    //   image: req.file?.path
-    // });
-    // if (value.image) {
-    //   value.image = await cloudinary.upload(value.image);
-    // }
-    // value.userId = req.user.id;
-    // const order = await Order.create(value);
-
     const slipPayment = await cloudinary.upload(req.file?.path);
     const order = await Order.create({
       userId: req.user.id,
-      paymentImg: slipPayment
+      paymentImg: slipPayment,
+      totalPrice: req.body.totalPrice
     });
 
+    console.log(order);
     res.status(201).json({ order });
   } catch (err) {
     next(err);
@@ -96,3 +84,27 @@ exports.uploadPayment = async (req, res, next) => {
     }
   }
 };
+
+// exports.statusConfirm = async (req, res, next) => {
+//   try {
+//     console.log(req.body);
+//     // const confirm = await Order.update(
+//     //   { status: req.body.status }
+//     //   ,
+//     //   { where: { id: req.body.id } });
+
+//     res.status(200).json({ message: "status update" });
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+
+// exports.statusConfirm = async (req, res, next) => {
+//   try {
+//     console.log(req.body);
+//     const confirm = await Order.update({ status: req.body.status }, { where: { id: req.body.id } });
+//     res.status(200).json({ message: "Update success" });
+//   } catch (err) {
+//     next(err);
+//   }
+// };

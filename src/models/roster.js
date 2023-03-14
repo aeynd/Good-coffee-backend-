@@ -2,17 +2,14 @@ module.exports = (sequelize, DataTypes) => {
   const Roaster = sequelize.define(
     "Roaster",
     {
-      title: {
+      roasterTitle: {
         type: DataTypes.STRING,
         validate: {
           notEmpty: true
         }
       },
       image: {
-        type: DataTypes.STRING,
-        validate: {
-          notEmpty: true
-        }
+        type: DataTypes.STRING
       }
     },
     { underscored: true }
@@ -23,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {
         name: "roasterId",
         allowNull: false
-      }
+      },
+
     });
   };
 

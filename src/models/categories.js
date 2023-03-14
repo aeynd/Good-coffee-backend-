@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) => {
   const Categories = sequelize.define(
     "Categories",
     {
-      title: {
+      catagoryTitle: {
         type: DataTypes.STRING,
         validate: {
           notEmpty: true
@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {
         name: "categoriesId",
         allowNull: false
-      }
+      },
+
     });
   };
   return Categories;

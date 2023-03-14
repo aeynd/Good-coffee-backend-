@@ -1,0 +1,6 @@
+exports.ORDER_PENDING = "PENDING";
+exports.ORDER_SUCCESS = "SUCCESS";
+exports.ORDER_REJECT = "REJECT";
+
+exports.STATUS_USER = "USER"
+exports.STATUS_ADMIN = "ADMIN"

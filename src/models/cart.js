@@ -17,13 +17,15 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {
         name: "userId",
         allowNull: false
-      }
+      },
+
     });
     Cart.belongsTo(db.Product, {
       foreignKey: {
         name: "productId",
         allowNull: false
-      }
+      },
+
     });
   };
   return Cart;

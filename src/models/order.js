@@ -1,3 +1,5 @@
+const { ORDER_PENDING, ORDER_SUCCESS, ORDER_REJECT } = require("../config/constant");
+
 module.exports = (sequelize, DataTypes) => {
   const Order = sequelize.define(
     "Order",
@@ -8,40 +10,34 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: true
         }
-      }
-    },
-    {
-      updateDate: {
-        type: DataTypes.DATE,
-        allowNull: false
-      }
-    },
-    {
+      },
       status: {
-        type: DataTypes.ENUM("pending", "success"),
-        defaultValue: "pending"
-      }
-    },
-    {
+        type: DataTypes.ENUM(ORDER_PENDING, ORDER_SUCCESS, ORDER_REJECT),
+        allowNull: false,
+        defaultValue: ORDER_PENDING
+      },
       totalPrice: {
         type: DataTypes.FLOAT(10, 2),
-        allowNull: false
+        allowNull: true
       }
     },
     { underscored: true }
   );
+  
   Order.associate = db => {
     Order.hasMany(db.OrderItem, {
       foreignKey: {
         name: "orderId",
         allowNull: false
-      }
+      },
+
     });
     Order.belongsTo(db.User, {
       foreignKey: {
         name: "userId",
         allowNull: false
-      }
+      },
+
     });
   };
   return Order;

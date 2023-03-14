@@ -16,14 +16,16 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {
         name: "productId",
         allowNull: false
-      }
+      },
+
     });
 
     OrderItem.belongsTo(db.Order, {
       foreignKey: {
         name: "orderId",
         allowNull: false
-      }
+      },
+
     });
   };
 

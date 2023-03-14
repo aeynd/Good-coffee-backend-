@@ -1,4 +1,4 @@
- // const { sequelize } = require("./models");
+//  const { sequelize } = require("./models");
 // sequelize.sync({ alter: true });
 
 require("dotenv").config();
@@ -13,6 +13,7 @@ const authRoute = require("./routes/auth-route");
 const productRoute = require("./routes/product-route");
 const roasterRoute = require("./routes/roaster-route");
 const cartRoute = require("./routes/cart-route");
+
 
 const notFoundMiddleware = require("./middlewares/not-found");
 const errorMiddleware = require("./middlewares/error");
@@ -34,6 +35,7 @@ app.use("/auth", authRoute);
 app.use("/product", productRoute);
 app.use("/roaster", roasterRoute);
 app.use("/cart", cartRoute);
+
 
 
 app.use(notFoundMiddleware);

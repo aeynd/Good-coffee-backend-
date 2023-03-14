@@ -11,4 +11,9 @@ router.patch("/updateinccart", authenticate, cartController.updateIncCart);
 router.patch("/updatedeccart", authenticate, cartController.updateDecCart);
 router.delete("/:cartId", authenticate, cartController.deleteProductInCart);
 
+router.get("/payment",cartController.getSlipImg)
+router.post("/",authenticate,cartController.checkout)
+
+router.delete("/:productId",authenticate,cartController.checkout)
+
 module.exports = router;
